@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termen — Privacy Policy</title>
+<meta name="description" content="Privacy policy for the Termen iOS app. Termen collects no data.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5a5a66;
+    --rule: #e4e4ec;
+    --accent: #5b3fd6;
+    --card: #f7f6fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0a09;
+      --fg: #f0eef7;
+      --muted: #a09eb0;
+      --rule: #26242e;
+      --accent: #a992ff;
+      --card: #15141b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 400 17px/1.65 ui-serif, "New York", Georgia, serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  h1 { font-size: 2.1rem; line-height: 1.2; margin: 0 0 .4rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 2.5rem; font-size: .95rem; }
+  h2 {
+    font-size: 1.15rem; margin: 2.6rem 0 .7rem; letter-spacing: -.005em;
+    padding-top: 1.4rem; border-top: 1px solid var(--rule);
+  }
+  h2:first-of-type { border-top: 0; padding-top: 0; }
+  p { margin: 0 0 1rem; }
+  ul { margin: 0 0 1rem; padding-left: 1.3rem; }
+  li { margin-bottom: .45rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+  .lede {
+    background: var(--card);
+    border-left: 3px solid var(--accent);
+    padding: 1.1rem 1.3rem;
+    margin: 0 0 2rem;
+    border-radius: 0 6px 6px 0;
+  }
+  .lede p { margin: 0; }
+  footer {
+    margin-top: 3.5rem; padding-top: 1.4rem; border-top: 1px solid var(--rule);
+    color: var(--muted); font-size: .88rem;
+  }
+  code {
+    font: 400 .88em/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--card); padding: .12em .35em; border-radius: 3px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; font-size: .9rem; }
+  th, td { text-align: left; padding: .5rem .4rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <h1>Termen — Privacy Policy</h1>
+  <p class="sub">Last updated 25 October 2026</p>
+
+  <div class="lede">
+    <p><strong>Termen does not collect, transmit, or share any personal data with the developer
+    or any third party.</strong> Everything the app sends or receives travels directly between
+    your iPhone and your Mac through the WireGuard-encrypted Tailscale tunnel.</p>
+  </div>
+
+  <h2>What Termen is</h2>
+  <p>Termen ("the app") is an iPhone client that remote-controls a copy of
+  <a href="https://cmux.com">cmux</a> running on <strong>your own Mac</strong>, over
+  <strong>your own Tailscale network</strong>.</p>
+
+  <h2>What the app stores on your device</h2>
+  <p>The following items are stored locally in the iOS Keychain or <code>UserDefaults</code> and
+  never leave your device, except as part of the connection to your own Mac:</p>
+  <table>
+    <tr><th>Item</th><th>Where</th><th>Purpose</th></tr>
+    <tr><td>Tailscale host name / IP</td><td><code>UserDefaults</code> (<code>cmux.host</code>)</td><td>Address of your own relay</td></tr>
+    <tr><td>Relay port</td><td><code>UserDefaults</code> (<code>cmux.port</code>)</td><td>TCP port of your own relay (default <code>4399</code>)</td></tr>
+    <tr><td>Bearer token</td><td>iOS Keychain</td><td>Authenticates this iPhone to your relay</td></tr>
+    <tr><td>Device identifier</td><td>iOS Keychain</td><td>Identifies this iPhone to your relay</td></tr>
+    <tr><td>Demo mode flag</td><td><code>UserDefaults</code> (<code>cmux.demoMode</code>)</td><td>Whether App Review / first-run demo mode is on</td></tr>
+  </table>
+  <p>The bearer token and device id are issued by <strong>your own Mac relay</strong> during the
+  first connection. The developer of this app never sees them.</p>
+
+  <h2>What the app sends over the network</h2>
+  <p>When connected (i.e. demo mode is off and you have configured a host), the app sends:</p>
+  <ul>
+    <li>A WebSocket connection (<code>ws://&lt;your-tailscale-host&gt;:&lt;your-port&gt;/v1/ws</code>) carrying the app's JSON-RPC protocol.</li>
+    <li>The same payloads you would type at your Mac terminal: text, key events, screen-subscribe requests.</li>
+    <li>Pictures you choose to attach. Your Mac saves each one under <code>~/.cache/cmux/task-attachments/</code>.</li>
+  </ul>
+  <p>These connections <strong>only</strong> terminate at the relay process (<code>cmux-relay</code>)
+  running on the Mac you configured. They do not transit any server controlled by the app
+  developer.</p>
+  <p>The <code>NSAppTransportSecurity / NSAllowsArbitraryLoads</code> exception declared in the
+  app's <code>Info.plist</code> is required because the relay communicates over plain HTTP/WS —
+  confidentiality and integrity are guaranteed by the underlying WireGuard tunnel that Tailscale
+  provides between the two devices.</p>
+
+  <h2>Notifications</h2>
+  <p>The app uses <code>UNUserNotificationCenter</code> to display <strong>local</strong>
+  notifications when the relay forwards events from cmux while the app is running. iOS asks for
+  your permission first.</p>
+  <p><strong>The App Store build gets local notifications only.</strong> When the app is closed,
+  nothing arrives; the Inbox shows what you missed when you open it again.</p>
+  <p>The app also registers for <strong>remote notifications (APNs)</strong>. A push to a closed
+  app works only for a build you sign yourself, with an APNs key from your own Apple developer
+  team: Apple accepts a key only for apps signed by the team that made it. This is what happens
+  to the device token:</p>
+  <ul>
+    <li>The token goes to <strong>your own relay on your own Mac</strong>, and nowhere else. It is sent over the same Tailscale tunnel as everything else, to <code>POST /v1/devices/me/apns</code>.</li>
+    <li>Your Mac stores it in <code>~/.termen/devices.json</code>, readable only by your own account (<code>0600</code>).</li>
+    <li>Your relay sends the notification through Apple's servers using <strong>your own APNs key</strong>, which you supply in <code>~/.termen/relay.json</code>. The developer has no key, no token, and no server in this path.</li>
+    <li>The payload carries a <strong>fixed sentence</strong> — "cmux needs attention" / "Open Termen to review this inbox item." — plus opaque ids (workspace, surface, notification, thread, request). <strong>It never carries terminal contents, and it never carries the title or text of the event itself.</strong> A lock screen is a public surface, so the app fetches the detail over your tailnet after you tap.</li>
+    <li>Remote push is off until you configure an <code>apns</code> block in <code>relay.json</code>. With no key, the relay sends nothing and the token is simply stored.</li>
+  </ul>
+
+  <h2>What the app does not do</h2>
+  <ul>
+    <li>No analytics, telemetry, crash reporting, or usage statistics</li>
+    <li>No advertising SDKs, no advertising identifiers, no IDFA access</li>
+    <li>No third-party service integrations (Firebase, Google, etc.)</li>
+    <li>No location, camera, microphone, or contacts access. Dictation is the iOS keyboard's own, so the app never gets the microphone</li>
+    <li>No photo library access. To attach a picture, iOS shows its own picker, and the app gets only the picture you choose</li>
+    <li>No background data collection</li>
+    <li>No tracking across apps or websites</li>
+  </ul>
+
+  <h2>Demo Mode</h2>
+  <p>When you enable Demo Mode in Settings, the app uses entirely fabricated workspaces, terminal
+  output, and notifications generated locally. No network connections are made.</p>
+
+  <h2>Children</h2>
+  <p>The app is rated 4+ and contains no objectionable content, advertising, or tracking. It is,
+  however, a developer tool and not intended for children under the age that can meaningfully
+  use a Unix terminal.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If this policy ever changes, the new version will be published on this page with a new
+  date. There is no opt-in mechanism because there is no data collection to opt in or out of.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy or about privacy in Termen can be raised here:
+  <a href="https://github.com/termen-app/termen-app.github.io/issues">github.com/termen-app/termen-app.github.io/issues</a>.
+  Open an issue and it will be answered there.</p>
+
+  <footer>
+    Termen for iOS · Privacy policy · Last updated 25 October 2026
+  </footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termen</title>
+<meta name="description" content="Termen: your Mac's cmux terminal on your iPhone.">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #5a5a66;
+    --rule: #e4e4ec; --accent: #5b3fd6; --card: #f7f6fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0a09; --fg: #f0eef7; --muted: #a09eb0;
+      --rule: #26242e; --accent: #a992ff; --card: #15141b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 400 17px/1.65 ui-serif, "New York", Georgia, serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 5rem 1.5rem 6rem; }
+  h1 { font-size: 2rem; margin: 0 0 .4rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 2.5rem; font-size: .95rem; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { border-top: 1px solid var(--rule); }
+  li a {
+    display: block; padding: 1.1rem .2rem; color: var(--fg);
+    text-decoration: none;
+  }
+  li a:hover { color: var(--accent); }
+  .name { font-weight: 600; }
+  .what { display: block; color: var(--muted); font-size: .9rem; margin-top: .15rem; }
+  footer {
+    margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--rule);
+    color: var(--muted); font-size: .88rem;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Termen</h1>
+  <p class="sub">Your Mac's cmux terminal on your iPhone.</p>
+
+  <ul>
+    <li>
+      <a href="/privacy/">
+        <span class="name">Privacy Policy</span>
+        <span class="what">Termen collects no data.</span>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    Questions? <a href="https://github.com/termen-app/termen-app.github.io/issues">Open an issue</a>.
+  </footer>
+</main>
+</body>
+</html>
